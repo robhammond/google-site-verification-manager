@@ -3,7 +3,7 @@ Manage Google Site Verification in bulk via the siteVerification API
 
 
 ## Install
-Create a client_secrets.json file with credentials & API access to (Google Site Verification API)[https://developers.google.com/site-verification/]
+Create a client_secrets.json file with credentials & API access to [Google Site Verification API](https://developers.google.com/site-verification/)
 
 Install Google's Node API library via:
 
