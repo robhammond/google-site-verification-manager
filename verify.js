@@ -15,7 +15,7 @@ fs.readFile('./client_secrets.json', function processClientSecrets(err, content)
   }
   // Authorize a client with the loaded credentials, then call the
   // Drive API.
-  authorize(JSON.parse(content), listUsers);
+  authorize(JSON.parse(content), listSites);
 });
 
 /**
@@ -93,25 +93,37 @@ function storeToken(token) {
 }
 
 /**
- * Lists the names and IDs of up to 10 files.
+ * Lists the sites verified
  *
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
 
-function listUsers(auth) {
+function listSites(auth) {
   var service = google.siteVerification('v1');
-  console.log(service.webResource);
   service.webResource.list({
     auth: auth,
     // pageSize : 10,
     fields : "items"
   }, function(err, response) {
     if (err) {
-      console.log("error " + err);
+      console.log("Error fetching sites: " + err);
       return;
     }
-    console.log("response");
-    console.log(response);
+
+    var sites = response.items;
+    if (sites.length == 0) {
+      console.log('No sites found.');
+    } else {
+      console.log('Sites:');
+      for (var i = 0; i < sites.length; i++) {
+        var site = sites[i];
+        console.log("Site ID: %s", site.id);
+        console.log("Type: %s", site.site.type);
+        console.log("Identifier: %s", site.site.identifier);
+        console.log("Owners: %s", site.owners);
+        console.log("-------");
+      }
+    }
   })
 }
 
